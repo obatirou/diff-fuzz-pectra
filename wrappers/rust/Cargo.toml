@@ -1,0 +1,11 @@
+[package]
+name = "revm_wrapper"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+revm-precompile = "=17.0.0-alpha.1"
+bytes = "1.0"
