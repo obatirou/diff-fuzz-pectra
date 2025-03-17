@@ -14,11 +14,11 @@ go: build_dir
 
 
 test: go rust
-	uv run pytest python/tests/ -vvvv -s 
+	uv run pytest tests/ -vvvv -s 
 
 clean:
 	rm -rf build/*
 	cargo clean
-	rm -rf python/*.so python/__pycache__ python/*.c
+	rm -rf tests/*.so tests/__pycache__ tests/*.c
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type d -name ".pytest_cache" -exec rm -rf {} +
