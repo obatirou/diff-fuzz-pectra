@@ -4,16 +4,15 @@
 diff_testing/
 ├── README.md
 ├── docs/
-│   └── design.md            # Detailed design decisions and protocols
-├── python/
-│   └── tests/               # Hypothesis-based fuzz tests
+│   └── design.md
+├── tests/
 ├── wrappers/
-│   ├── rust/                # Rust implementation
+│   ├── rust/                # REVM implementation
 │   ├── python/              # EELS implementation
-│   └── golang/              # Go implementation
-├── pyproject.toml           # Python project configuration
-├── .trunk/trunk.yaml        # Quality tools configuration
-└── build/                   # Compiled shared libraries
+│   └── golang/              # Go-Ethereum implementation
+├── pyproject.toml
+├── .trunk/trunk.yaml
+└── build/
 ```
 
 ## Prerequisites
@@ -83,4 +82,5 @@ trunk install-hook
 
 - add other clients
 - check for gas
-- fix unreliable tests (pairing / test_g2_add)
+- fix unreliable tests
+- refactor strategies
