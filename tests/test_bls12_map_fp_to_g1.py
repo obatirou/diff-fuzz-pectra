@@ -67,32 +67,27 @@ def test_map_fp_to_g1_error_handling(
     Test that all implementations handle arbitrary 64-byte inputs consistently.
     They should either all succeed or all fail with a similar error.
     """
-    # Try all implementations
+    implementations = [
+        ("rust", rust_wrapper.map_fp_to_g1),
+        ("go", go_wrapper.map_fp_to_g1),
+        ("python", python_wrapper.map_fp_to_g1),
+    ]
+
     results = []
     errors = []
 
-    try:
-        results.append(("rust", rust_wrapper.map_fp_to_g1(input_data)))
-    except Exception as e:
-        errors.append(("rust", str(e)))
+    for name, func in implementations:
+        try:
+            results.append((name, func(input_data)))
+        except RuntimeError as e:
+            errors.append((name, str(e)))
 
-    try:
-        results.append(("go", go_wrapper.map_fp_to_g1(input_data)))
-    except Exception as e:
-        errors.append(("go", str(e)))
-
-    try:
-        results.append(("python", python_wrapper.map_fp_to_g1(input_data)))
-    except Exception as e:
-        errors.append(("python", str(e)))
-
-    # All implementations should either succeed or fail together
+    # Check for consistency: all should succeed or all should fail
     if results and errors:
         pytest.fail(f"Inconsistent behavior: {results} succeeded but {errors} failed")
 
-    # If all implementations succeeded, they should agree on the result
-    if len(results) > 1:
-        for i in range(1, len(results)):
-            assert (
-                results[0][1] == results[i][1]
-            ), f"{results[0][0]} and {results[i][0]} disagree"
+    # If all succeeded, verify they return the same result
+    if results:
+        first_name, first_result = results[0]
+        for name, result in results[1:]:
+            assert first_result == result, f"{first_name} and {name} disagree on result"
